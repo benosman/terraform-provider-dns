@@ -27,7 +27,7 @@ func resourceDnsNSRecordSet() *schema.Resource {
 			},
 			"name": {
 				Type:         schema.TypeString,
-				Required:     true,
+				Optional:     true,
 				ForceNew:     true,
 				ValidateFunc: validateName,
 			},

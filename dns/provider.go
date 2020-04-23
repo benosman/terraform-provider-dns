@@ -478,7 +478,7 @@ func resourceDnsRead(d *schema.ResourceData, meta interface{}, rrType uint16) ([
 		}
 		switch r.Rcode {
 		case dns.RcodeSuccess:
-			// NS records are returned slightly differently
+			// NS records are returned slightly differently when name is present
 			if (rrType == dns.TypeNS && len(r.Ns) > 0) || len(r.Answer) > 0 {
 				break
 			}
@@ -489,7 +489,7 @@ func resourceDnsRead(d *schema.ResourceData, meta interface{}, rrType uint16) ([
 			return nil, fmt.Errorf("Error querying DNS record: %v (%s)", r.Rcode, dns.RcodeToString[r.Rcode])
 		}
 
-		if rrType == dns.TypeNS {
+		if rrType == dns.TypeNS && len(r.Ns) > 0 {
 			return r.Ns, nil
 		}
 		return r.Answer, nil
